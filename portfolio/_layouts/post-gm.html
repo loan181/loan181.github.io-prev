@@ -1,0 +1,35 @@
+---
+layout: post
+---
+
+
+{% comment %}
+Convoluted way to find if the file exists in the assets.
+It is very inneficient, but it does not really matter as it will happen during compilation time
+{% endcomment %}
+{% assign game_path = '/assets/gm-games/' | append: page.asset-folder | append: '/html/index.html' %}
+{% assign game_path_exists = false %}
+{% for static_file in site.static_files %}
+    {% if static_file.path == game_path %}
+        {% assign game_path_exists = true %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+
+{% if game_path_exists %}
+<h2>Demo</h2>
+
+    <iframe
+            id="gm-game" width="640" height="480" scrolling="no" frameborder="0"
+            src="{{ game_path }}">
+    </iframe>
+    <p class="mute">
+        Note: This demo is a more recent adaptation to be embedded on the website.
+        Some features were removed to adapt with this format
+    </p>
+
+{% else %}
+    <p class="mute">No demo available for this game</p>
+{% endif %}
+
+{{ content }}
